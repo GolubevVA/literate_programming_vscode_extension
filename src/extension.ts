@@ -34,10 +34,10 @@ class LPNBNotebookSerializer implements vscode.NotebookSerializer {
 
     if (parsed.sections && Array.isArray(parsed.sections)) {
       for (const section of parsed.sections) {
-        if (section.documentation) {
+        if (section.docs) {
           const mdCell = new vscode.NotebookCellData(
             vscode.NotebookCellKind.Markup,
-            section.documentation,
+            section.docs,
             'markdown'
           );
           cells.push(mdCell);
@@ -64,19 +64,19 @@ class LPNBNotebookSerializer implements vscode.NotebookSerializer {
         if (i + 1 < cells.length && cells[i + 1].kind === vscode.NotebookCellKind.Code) {
           const docCell = cells[i];
           const codeCell = cells[i + 1];
-          const documentation = docCell.value;
+          const docs = docCell.value;
           const code = codeCell.value;
           sections.push({
-            documentation,
+            docs,
             code
           });
           i += 1;
           continue;
         } else {
           const docCell = cells[i];
-          const documentation = docCell.value;
+          const docs = docCell.value;
           sections.push({
-            documentation,
+            docs,
             code: ""
           });
         }
@@ -84,7 +84,7 @@ class LPNBNotebookSerializer implements vscode.NotebookSerializer {
         const codeCell = cells[i];
         const code = codeCell.value;
         sections.push({
-          documentation: "",
+          docs: "",
           code
         });
       }
